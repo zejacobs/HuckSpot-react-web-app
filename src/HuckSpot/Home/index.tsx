@@ -1,9 +1,9 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { IoFlashlightOutline } from "react-icons/io5";
 import { GrTrophy } from "react-icons/gr";
 import { Link } from "react-router-dom";
+import * as discItApiClient from "../Clients/discItApiClient";
 
 function Home() {
   interface discDataType {
@@ -21,15 +21,12 @@ function Home() {
   }
   const [discData, setDiscData] = useState<discDataType>();
 
-  const DISC_BASE_API = "https://discit-api.fly.dev/disc";
-  const fetchRandomDisc = async () => {
-    const response = await axios.get(`${DISC_BASE_API}`);
-    const numDiscs = response.data.length;
-    const randomDiscIndex = Math.floor(Math.random() * numDiscs);
-    setDiscData(response.data[randomDiscIndex]);
+  const setDiscSpotlight = async () => {
+    const randomDisc = await discItApiClient.fetchRandomDisc();
+    setDiscData(randomDisc);
   };
   useEffect(() => {
-    fetchRandomDisc();
+    setDiscSpotlight();
   }, []);
 
   const navigate = useNavigate();

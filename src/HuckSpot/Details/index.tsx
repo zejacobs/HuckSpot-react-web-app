@@ -1,9 +1,9 @@
 import { useParams } from "react-router";
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { TiShoppingCart } from "react-icons/ti";
 import { LuPlus, LuMinusCircle } from "react-icons/lu";
 import { GrLike, GrDislike } from "react-icons/gr";
+import * as discItApiClient from "../Clients/discItApiClient";
 
 function Details() {
   interface discDataType {
@@ -24,10 +24,9 @@ function Details() {
   const isLoggedIn = true; // Change once login implemented
 
   const { discId } = useParams();
-  const DISC_BASE_API = "https://discit-api.fly.dev/disc?id=";
   const fetchDiscData = async () => {
-    const response = await axios.get(`${DISC_BASE_API}${discId}`);
-    setDiscData(response.data[0]);
+    const response = await discItApiClient.fetchDiscById(discId);
+    setDiscData(response);
   };
   useEffect(() => {
     fetchDiscData();
