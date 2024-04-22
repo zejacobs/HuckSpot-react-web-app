@@ -1,0 +1,38 @@
+.nav-bar {
+  padding-top: 12px;
+  height: 80px;
+  background-color: black;
+  align-content: center;
+}
+
+.nav-bar ul {
+  list-style: none;
+  vertical-align: middle;
+}
+
+#nav-bar-logo {
+  border: 2px;
+  border-color: white;
+  border-style: solid;
+  border-radius: 8px;
+  margin-inline-end: 80px;
+  font-size: 2em;
+}
+
+.nav-bar li {
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 1.25em;
+  margin-right: 40px;
+  color: white;
+}
+
+.nav-bar li.wd-active {
+  border-bottom-style: solid;
+  border-bottom-color: white;
+}
+
+.nav-bar a {
+  color: white;
+  text-decoration: none;
+}
