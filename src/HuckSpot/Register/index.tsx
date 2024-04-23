@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
-import * as client from "../Users/client";
+import * as userClient from "../Clients/userClient";
 
 function Register() {
   const [hasPdgaNum, setHasPdgaNum] = useState(false);
@@ -19,7 +19,7 @@ function Register() {
   const registerUser = async () => {
     if (document.forms[0].checkValidity()) {
       try {
-        await client.register(user);
+        await userClient.register(user);
         navigate("/Profile");
       } catch (err: any) {
         setError(err.response.data.message);

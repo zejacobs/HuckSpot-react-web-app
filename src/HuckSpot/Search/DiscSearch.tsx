@@ -1,35 +1,14 @@
-import { useState } from "react";
-import DiscSearch from "./DiscSearch";
-import TournamentSearch from "./TournamentSearch";
-import UserSearch from "./UserSearch";
+import { useNavigate } from "react-router";
 
-function Search() {
-  const [searchType, setSearchType] = useState("Disc");
-
+export default function DiscSearch() {
+  const navigate = useNavigate();
+  const submitDiscSearch = () => {
+    navigate("Search/Discs");
+  };
   return (
-    <div>
-      <h1>Search</h1> <hr />
-      <div className="mb-4">
-        <button className="btn btn-secondary me-4" onClick={() => setSearchType("Disc")}>
-          Disc Search
-        </button>
-        <button className="btn btn-secondary me-4" onClick={() => setSearchType("Tournament")}>
-          Tournament Search
-        </button>
-        <button className="btn btn-secondary me-4" onClick={() => setSearchType("User")}>
-          User Search
-        </button>
-      </div>
-      {searchType === "Disc" && <DiscSearch />}
-      {searchType === "Tournament" && <TournamentSearch />}
-      {searchType === "User" && <UserSearch />}
-    </div>
-  );
-  /*(
-    <div>
-      <h1>Search</h1> <hr />
-      <h2>Disc Search</h2>
-      <div className="container p-4">
+    <>
+      <h2>Disc Search</h2> <br />
+      <div className="container">
         <h4>Search Citeria</h4>
         <div className="form-group row mt-2">
           <label htmlFor="search-name" className="col-2 col-form-label">
@@ -107,10 +86,10 @@ function Search() {
             </div>
           </div>
         </div>
-        <button className="btn btn-primary col-2 mt-4">Submit Search</button>
+        <button className="btn btn-primary mt-4" onClick={submitDiscSearch}>
+          Submit Disc Search
+        </button>
       </div>
-    </div>
-  );*/
+    </>
+  );
 }
-
-export default Search;
