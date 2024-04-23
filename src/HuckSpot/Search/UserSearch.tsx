@@ -2,11 +2,23 @@ import { useState } from "react";
 import { useNavigate } from "react-router";
 
 export default function UserSearch() {
-  const [userSearch, setUserSearch] = useState({ firstName: "", lastName: "", pdgaNum: "", profileId: "" });
+  const [searchParams, setSearchParams] = useState({ firstName: "", lastName: "", pdgaNum: "", _id: "" });
 
   const navigate = useNavigate();
+
+  const formatQueryString = () => {
+    const query = new URLSearchParams();
+
+    Object.entries(searchParams).forEach(([key, value]) => {
+      if (value) {
+        query.append(key, value);
+      }
+    });
+    return query;
+  };
   const submitUserSearch = () => {
-    navigate("/Search/Users");
+    const queryString = formatQueryString();
+    navigate(`./Users?${queryString}`);
   };
 
   return (
@@ -24,7 +36,7 @@ export default function UserSearch() {
               className="form-control"
               id="search-fname"
               placeholder="First Name"
-              onChange={(e) => setUserSearch({ ...userSearch, firstName: e.target.value })}
+              onChange={(e) => setSearchParams({ ...searchParams, firstName: e.target.value })}
             />
           </div>
         </div>
@@ -38,7 +50,7 @@ export default function UserSearch() {
               className="form-control"
               id="search-lname"
               placeholder="Last Name"
-              onChange={(e) => setUserSearch({ ...userSearch, lastName: e.target.value })}
+              onChange={(e) => setSearchParams({ ...searchParams, lastName: e.target.value })}
             />
           </div>
         </div>
@@ -52,7 +64,7 @@ export default function UserSearch() {
               className="form-control"
               id="search-pdga"
               placeholder="PDGA #"
-              onChange={(e) => setUserSearch({ ...userSearch, pdgaNum: e.target.value })}
+              onChange={(e) => setSearchParams({ ...searchParams, pdgaNum: e.target.value })}
             />
           </div>
         </div>
@@ -66,7 +78,7 @@ export default function UserSearch() {
               className="form-control"
               id="search-profile-id"
               placeholder="Profile Id"
-              onChange={(e) => setUserSearch({ ...userSearch, profileId: e.target.value })}
+              onChange={(e) => setSearchParams({ ...searchParams, _id: e.target.value })}
             />
           </div>
         </div>
