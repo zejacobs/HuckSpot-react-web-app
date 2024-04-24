@@ -1,12 +1,20 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import * as likeClient from "../Clients/likeClient";
+import { useSelector } from "react-redux";
 
 export default function LikedDiscs() {
   const [likedDiscs, setLikedDiscs] = useState([]);
+  const { currentUser } = useSelector((state: any) => state.user);
+  const { userId } = useParams();
 
   const fetchUserLikes = async () => {
-    const response = await likeClient.fetchDiscsUserLikes();
+    let response;
+    if (userId) {
+      response = await likeClient.fetchDiscsUserLikes(userId);
+    } else if (currentUser) {
+      response = await likeClient.fetchDiscsUserLikes(currentUser._id);
+    }
     if (response) {
       setLikedDiscs(response);
     }

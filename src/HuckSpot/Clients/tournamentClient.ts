@@ -39,12 +39,16 @@ export const getRecentlyAddedTournaments = async () => {
 };
 
 export const registerUserForTournament = async (tournament: any) => {
-  console.log(tournament);
   const response = await axios.post(`${TOURNAMENT_API}/register`, tournament);
   return response.data;
 };
 
 export const unregisterUserForTournament = async (tournamentId: any) => {
   const response = await axios.delete(`${TOURNAMENT_API}/${tournamentId}/unregister`);
+  return response.data;
+};
+
+export const getTournamentPlayers = async (tournamentId: any) => {
+  const response = await axios.get(`${TOURNAMENT_API}/${tournamentId}/players`);
   return response.data;
 };
