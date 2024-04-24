@@ -30,11 +30,6 @@ export const logout = async () => {
   return response.data;
 };
 
-export const getCurrentUser = async () => {
-  const response = await axios.get(`${USERS_API}/currentuser`);
-  return response.data;
-};
-
 export const profile = async () => {
   const response = await axios.post(`${USERS_API}/profile`);
   return response.data;
@@ -72,5 +67,15 @@ export const updateUser = async (user: any) => {
 
 export const deleteUser = async (user: any) => {
   const response = await axios.delete(`${USERS_API}/${user._id}`);
+  return response.data;
+};
+
+export const userBagsDisc = async (disc: any) => {
+  const response = await axios.post(`${BASE_API}/bags`, disc);
+  return response.data;
+};
+
+export const userUnBagsDisc = async (discId: any) => {
+  const response = await axios.delete(`${BASE_API}/bags/${discId}`);
   return response.data;
 };

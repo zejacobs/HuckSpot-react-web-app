@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
+import { useDispatch } from "react-redux";
+import { setCurrentUser } from "../userReducer";
 import * as userClient from "../Clients/userClient";
 import { GrUserNew } from "react-icons/gr";
 
@@ -15,12 +17,16 @@ function Register() {
     pdgaNum: "",
   });
   const [error, setError] = useState("");
+  const dispatch = useDispatch();
 
   const navigate = useNavigate();
   const registerUser = async () => {
     if (document.forms[0].checkValidity()) {
       try {
-        await userClient.register(user);
+        await userClient.logout();
+
+        const currentUser = await userClient.register(user);
+        dispatch(setCurrentUser(currentUser));
         navigate("/Profile");
       } catch (err: any) {
         setError(err.response.data.message);

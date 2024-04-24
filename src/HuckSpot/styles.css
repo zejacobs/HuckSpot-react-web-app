@@ -6,7 +6,12 @@ body * {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+.main-content {
+  flex-direction: column;
+}
+
 .side-bar {
-  background-color: aqua;
-  width: 80px;
+  background-color: rgb(118, 187, 216);
+  width: 100px;
+  height: calc(100vh - 80px);
 }

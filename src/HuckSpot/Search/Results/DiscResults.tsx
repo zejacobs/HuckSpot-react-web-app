@@ -35,7 +35,7 @@ export default function DiscResults({ queryString }: any) {
           <ul className="list-group">
             {discs.map((disc) => (
               <li className="list-group-item list-group-item-action py-3" key={disc.id}>
-                <Link style={{ textDecoration: "none" }} to={`/Details/${disc.id}`}>
+                <Link style={{ textDecoration: "none" }} to={`/Details/Discs/${disc.id}`}>
                   <h3>
                     {disc.brand} {disc.name}&nbsp;&nbsp;&nbsp;{disc.speed}&nbsp;|&nbsp;{disc.glide}&nbsp;|&nbsp;{disc.turn}&nbsp;|&nbsp;{disc.fade}
                   </h3>
