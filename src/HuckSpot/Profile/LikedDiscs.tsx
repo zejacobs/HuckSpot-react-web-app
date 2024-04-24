@@ -7,7 +7,9 @@ export default function LikedDiscs() {
 
   const fetchUserLikes = async () => {
     const response = await likeClient.fetchDiscsUserLikes();
-    setLikedDiscs(response);
+    if (response) {
+      setLikedDiscs(response);
+    }
   };
   useEffect(() => {
     fetchUserLikes();

@@ -27,11 +27,14 @@ export default function TournamentDetails() {
 
   const dispatch = useDispatch();
   const { currentUser } = useSelector((state: any) => state.user);
-
   const { tournamentId } = useParams();
+
   const fetchTournamentData = async () => {
-    const response = await tournamentClient.findTournamentById(tournamentId); //GET TOURNEY DATA FROM SERVER
+    const response = await tournamentClient.findTournamentById(tournamentId);
+    console.log(response);
+    console.log(response[0]);
     setTournamentData(response[0]);
+    console.log(tournamentData?.registeredPlayers);
 
     if (currentUser) {
       const isUserRegistered = await userClient.isUserRegisteredforTournament(tournamentId);
@@ -45,8 +48,8 @@ export default function TournamentDetails() {
   const registerForTournament = async () => {
     const tourney = {
       tournamentId: tournamentData?._id,
-      name: tournamentData?.name,
-      date: tournamentData?.date,
+      tournamentName: tournamentData?.name,
+      tournamentDate: tournamentData?.date,
     };
     await tournamentClient.registerUserForTournament(tourney);
     setRegisteredPlayers([{ playerId: currentUser._id, playerName: currentUser.name }, ...registeredPlayers]);
@@ -56,6 +59,7 @@ export default function TournamentDetails() {
   const unregisterForTournament = async () => {
     await tournamentClient.unregisterUserForTournament(tournamentId);
     setRegisteredPlayers(registeredPlayers.filter((player) => player.playerId !== currentUser._id));
+    console.log(registeredPlayers);
     setIsRegistered(false);
   };
 
@@ -86,10 +90,10 @@ export default function TournamentDetails() {
       </div>
       <hr />
       <h4>Registered Players</h4>
-      <ul>
+      <ul className="list-group">
         {registeredPlayers?.map((player: any) => (
-          <li className="list-group-item" key={player.userId}>
-            <Link to={`/Profile/${player.userId}`}>{player.name}</Link>
+          <li className="list-group-item" key={player.playerId}>
+            <Link to={`/Profile/${player.playerId}`}>ddd{player.playerName}</Link>
           </li>
         ))}
       </ul>

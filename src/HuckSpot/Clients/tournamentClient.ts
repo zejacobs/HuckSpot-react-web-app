@@ -39,6 +39,7 @@ export const getRecentlyAddedTournaments = async () => {
 };
 
 export const registerUserForTournament = async (tournament: any) => {
+  console.log(tournament);
   const response = await axios.post(`${TOURNAMENT_API}/register`, tournament);
   return response.data;
 };
