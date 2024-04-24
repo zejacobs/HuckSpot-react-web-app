@@ -82,6 +82,7 @@ export default function DiscSearch() {
               <option value="Approach">Approach</option>
               <option value="Midrange">Midrange</option>
               <option value="Control">Control Driver</option>
+              <option value="Hybrid">Hybrid Driver</option>
               <option value="Distance">Distance Driver</option>
             </select>
           </div>

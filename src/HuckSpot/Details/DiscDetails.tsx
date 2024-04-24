@@ -1,14 +1,15 @@
 import { useParams } from "react-router";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import store from "../store";
 import * as discItApiClient from "../Clients/discItApiClient";
 import * as likeClient from "../Clients/likeClient";
 import * as userClient from "../Clients/userClient";
+import * as discClient from "../Clients/discClient";
 import { TiShoppingCart } from "react-icons/ti";
 import { LuPlus, LuMinusCircle } from "react-icons/lu";
 import { GrLike, GrDislike } from "react-icons/gr";
-import { setCurrentUser } from "../userReducer";
+import { Link } from "react-router-dom";
 
 function DiscDetails() {
   interface discDataType {
@@ -24,31 +25,42 @@ function DiscDetails() {
     link: string;
     pic: string;
   }
+
+  interface likeDataType {
+    userId: string;
+    name: string;
+  }
   const [discData, setDiscData] = useState<discDataType>();
-  const [profile, setProfile] = useState({ _id: "", likedDiscs: [], baggedDiscs: [] });
+  const [profile, setProfile] = useState<any>({ _id: "", likedDiscs: [], baggedDiscs: [] });
+  const [likedBy, setLikedBy] = useState<likeDataType[]>([]);
   const [isBagged, setIsBagged] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
 
   const dispatch = useDispatch();
-  const { currentUser } = store.getState().user;
+  const { currentUser } = useSelector((state: any) => state.user);
 
   const { discId } = useParams();
 
   const fetchDiscData = async () => {
-    const response = await discItApiClient.fetchDiscById(discId);
-    setDiscData(response);
+    const disc = await discItApiClient.fetchDiscById(discId);
+    setDiscData(disc);
+    const likes = await discClient.findUsersThatLikeDisc(discId);
+    setLikedBy(likes);
+
     if (currentUser) {
-      console.log(currentUser);
       setProfile(currentUser);
-      console.log(profile.likedDiscs.find((disc: any) => disc.discId == discId));
-      setIsLiked(!!profile.likedDiscs.find((disc: any) => disc.discId == discId));
-      console.log(profile.baggedDiscs.find((disc: any) => disc.discId == discId));
-      setIsBagged(!!profile.baggedDiscs.find((disc: any) => disc.discId == discId));
+
+      const doesUserLikeDisc = await likeClient.doesUserLikeDisc(discId);
+      console.log(`LIKES? ${doesUserLikeDisc}`);
+      setIsLiked(doesUserLikeDisc);
+
+      const doesUserBagDisc = await userClient.doesUserBagDisc(discId);
+      setIsBagged(doesUserBagDisc);
     }
   };
   useEffect(() => {
     fetchDiscData();
-  }, [currentUser, profile]);
+  }, [isLiked]);
 
   const likeDisc = async () => {
     const likedDisc = {
@@ -57,16 +69,25 @@ function DiscDetails() {
       category: discData?.category,
     };
     await likeClient.userLikesDisc(likedDisc);
+    setLikedBy([{ userId: currentUser._id, name: currentUser.name }, ...likedBy]);
     setIsLiked(true);
   };
   const unlikeDisc = async () => {
     await likeClient.userUnlikesDisc(discId);
+    setLikedBy(likedBy.filter((user) => user.userId !== currentUser._id));
     setIsLiked(false);
   };
   const bagDisc = async () => {
+    const baggedDisc = {
+      discId: discData?.id,
+      name: `${discData?.brand} ${discData?.name}`,
+      category: discData?.category,
+    };
+    await userClient.userBagsDisc(baggedDisc);
     setIsBagged(true);
   };
   const unbagDisc = async () => {
+    await userClient.userUnBagsDisc(discId);
     setIsBagged(false);
   };
 
@@ -116,6 +137,13 @@ function DiscDetails() {
       </div>{" "}
       <br />
       <h2>Liked By</h2>
+      <ul className="list-group">
+        {likedBy?.map((like: any) => (
+          <li className="list-group-item" key={like.userId}>
+            <Link to={`/Profile/${like.userId}`}>{like.name}</Link>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }

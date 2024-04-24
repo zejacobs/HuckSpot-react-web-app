@@ -9,9 +9,17 @@ body * {
 .main-content {
   flex-direction: column;
 }
+.center-content {
+}
 
-.side-bar {
+.side-bar-left {
   background-color: rgb(118, 187, 216);
   width: 100px;
-  height: calc(100vh - 80px);
+  height: 100vh;
+}
+
+.side-bar-right {
+  background-color: rgb(118, 187, 216);
+  width: 100px;
+  height: 100vh;
 }

@@ -5,6 +5,8 @@ import { GrTrophy } from "react-icons/gr";
 import { SlHome } from "react-icons/sl";
 import { Link } from "react-router-dom";
 import * as discItApiClient from "../Clients/discItApiClient";
+import * as tournamentClient from "../Clients/tournamentClient";
+import { useSelector } from "react-redux";
 
 function Home() {
   interface discDataType {
@@ -21,13 +23,20 @@ function Home() {
     pic: string;
   }
   const [discData, setDiscData] = useState<discDataType>();
+  const [recentTournaments, setRecentTournaments] = useState([]);
+  const { currentUser } = useSelector((state: any) => state.user);
 
-  const setDiscSpotlight = async () => {
+  const fetchDiscSpotlight = async () => {
     const randomDisc = await discItApiClient.fetchRandomDisc();
     setDiscData(randomDisc);
   };
+  const fetchRecentTournaments = async () => {
+    const tournaments = await tournamentClient.getRecentlyAddedTournaments();
+    setRecentTournaments(tournaments);
+  };
   useEffect(() => {
-    setDiscSpotlight();
+    fetchDiscSpotlight();
+    fetchRecentTournaments();
   }, []);
 
   const navigate = useNavigate();
@@ -35,7 +44,7 @@ function Home() {
   return (
     <div>
       <h1>
-        <SlHome /> Home
+        <SlHome /> Home {currentUser && ` - Welcome ${currentUser.firstName}!`}
       </h1>{" "}
       <hr />
       <div className="container">
@@ -68,14 +77,33 @@ function Home() {
                 <GrTrophy /> Recent Tournaments
               </h2>{" "}
               <hr />
+              {!!recentTournaments ? (
+                <ul>
+                  {recentTournaments.map((tournament: any) => (
+                    <li className="mb-4">
+                      <Link style={{ textDecoration: "none" }} to={`/Details/Tournaments/${tournament._id}`}>
+                        {tournament.name} @ {tournament.course}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <h4>No Recently Added Tournaments</h4>
+              )}
             </div>
           </div>
         </div>
-        <div className="row">
-          <div className="col border bg-light p-4">
-            <h2>
-              <Link to={"/Login"}>Login</Link> for more content
-            </h2>
+        <div className="row mt-2">
+          <div className="col">
+            <div className="border bg-light p-4">
+              {!currentUser ? (
+                <h2>
+                  <Link to={"/Login"}>Login</Link> for more content
+                </h2>
+              ) : (
+                <h2>Logged In</h2>
+              )}
+            </div>
           </div>
         </div>
       </div>
