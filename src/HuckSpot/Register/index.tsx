@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import * as userClient from "../Clients/userClient";
+import { GrUserNew } from "react-icons/gr";
 
 function Register() {
   const [hasPdgaNum, setHasPdgaNum] = useState(false);
@@ -29,7 +30,9 @@ function Register() {
 
   return (
     <div>
-      <h1>Register</h1>
+      <h1>
+        <GrUserNew /> Register
+      </h1>
       <hr />
       <form className="needs-validation" id="reg-form">
         <div className="form-group row">
@@ -153,15 +156,7 @@ function Register() {
           <span>
             <label className="form-label me-4">Do you have a PDGA Number?</label>
             <div className="form-check-inline me-4">
-              <input
-                className="form-check-inpu me-1"
-                type="radio"
-                name="exampleRadios"
-                id="yes-pdga"
-                readOnly
-                onClick={() => setHasPdgaNum(true)}
-                checked={hasPdgaNum}
-              />
+              <input className="form-check-input me-1" type="radio" id="yes-pdga" readOnly onClick={() => setHasPdgaNum(true)} checked={hasPdgaNum} />
               <label className="form-check-label" htmlFor="yes-pdga">
                 Yes
               </label>

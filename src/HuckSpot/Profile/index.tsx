@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
 import * as userClient from "../Clients/userClient";
+import { ImProfile } from "react-icons/im";
 
 function Profile() {
   const { userId } = useParams();
@@ -26,7 +27,10 @@ function Profile() {
 
   return (
     <div>
-      <h1>Profile</h1> <hr />
+      <h1>
+        <ImProfile /> Profile
+      </h1>{" "}
+      <hr />
       {userId && <h4>{userId}</h4>}
       {error ? (
         <h2>

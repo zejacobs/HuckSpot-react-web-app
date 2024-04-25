@@ -1,9 +1,24 @@
+import { useState } from "react";
 import { useNavigate } from "react-router";
 
 export default function DiscSearch() {
+  const [searchParams, setSearchParams] = useState({ name: "", brand: "", category: "", speed: "", glide: "", turn: "", fade: "", stability: "" });
+
   const navigate = useNavigate();
+
+  const formatQueryString = () => {
+    const query = new URLSearchParams();
+
+    Object.entries(searchParams).forEach(([key, value]) => {
+      if (value) {
+        query.append(key, value);
+      }
+    });
+    return query;
+  };
   const submitDiscSearch = () => {
-    navigate("Search/Discs");
+    const queryString = formatQueryString();
+    navigate(`./Discs?${queryString}`);
   };
   return (
     <>
@@ -15,7 +30,18 @@ export default function DiscSearch() {
             Name
           </label>
           <div className="col-sm-4">
-            <input type="text" className="form-control" id="search-name" placeholder="Name" />
+            <input
+              type="text"
+              className="form-control"
+              id="search-name"
+              placeholder="Name"
+              onChange={(e) =>
+                setSearchParams({
+                  ...searchParams,
+                  name: e.target.value,
+                })
+              }
+            />
           </div>
         </div>
         <div className="form-group row mt-2">
@@ -23,7 +49,18 @@ export default function DiscSearch() {
             Brand
           </label>
           <div className="col-sm-4">
-            <input type="text" className="form-control" id="search-brand" placeholder="Brand" />
+            <input
+              type="text"
+              className="form-control"
+              id="search-brand"
+              placeholder="Brand"
+              onChange={(e) =>
+                setSearchParams({
+                  ...searchParams,
+                  brand: e.target.value,
+                })
+              }
+            />
           </div>
         </div>
         <div className="form-group row mt-2">
@@ -31,7 +68,15 @@ export default function DiscSearch() {
             Category
           </label>
           <div className="col-sm-4">
-            <select className="form-select">
+            <select
+              className="form-select"
+              onChange={(e) =>
+                setSearchParams({
+                  ...searchParams,
+                  category: e.target.value,
+                })
+              }
+            >
               <option value="">None</option>
               <option value="Putter">Putter</option>
               <option value="Approach">Approach</option>
@@ -45,7 +90,20 @@ export default function DiscSearch() {
               Speed
             </label>
             <div className="col-sm-4">
-              <input type="Number" className="form-control" id="search-speed" placeholder="1 to 14" min={"1"} max={"14"} />
+              <input
+                type="Number"
+                className="form-control"
+                id="search-speed"
+                placeholder="1 to 14"
+                min={"1"}
+                max={"14"}
+                onChange={(e) =>
+                  setSearchParams({
+                    ...searchParams,
+                    speed: e.target.value,
+                  })
+                }
+              />
             </div>
           </div>
           <div className="form-group row mt-2">
@@ -53,7 +111,20 @@ export default function DiscSearch() {
               Glide
             </label>
             <div className="col-sm-4">
-              <input type="Number" className="form-control" id="search-glide" placeholder="1 to 7" min={"1"} max={"7"} />
+              <input
+                type="Number"
+                className="form-control"
+                id="search-glide"
+                placeholder="1 to 7"
+                min={"1"}
+                max={"7"}
+                onChange={(e) =>
+                  setSearchParams({
+                    ...searchParams,
+                    glide: e.target.value,
+                  })
+                }
+              />
             </div>
           </div>
           <div className="form-group row mt-2">
@@ -61,7 +132,20 @@ export default function DiscSearch() {
               Turn
             </label>
             <div className="col-sm-4">
-              <input type="Number" className="form-control" id="search-turn" placeholder="-5 to 1" min={"-5"} max={"1"} />
+              <input
+                type="Number"
+                className="form-control"
+                id="search-turn"
+                placeholder="-5 to 1"
+                min={"-5"}
+                max={"1"}
+                onChange={(e) =>
+                  setSearchParams({
+                    ...searchParams,
+                    turn: e.target.value,
+                  })
+                }
+              />
             </div>
           </div>
           <div className="form-group row mt-2">
@@ -69,7 +153,20 @@ export default function DiscSearch() {
               Fade
             </label>
             <div className="col-sm-4">
-              <input type="Number" className="form-control" id="search-fade" placeholder="0 to 5" min={"0"} max={"5"} />
+              <input
+                type="Number"
+                className="form-control"
+                id="search-fade"
+                placeholder="0 to 5"
+                min={"0"}
+                max={"5"}
+                onChange={(e) =>
+                  setSearchParams({
+                    ...searchParams,
+                    fade: e.target.value,
+                  })
+                }
+              />
             </div>
           </div>
           <div className="form-group row mt-2">
@@ -77,7 +174,15 @@ export default function DiscSearch() {
               Stability
             </label>
             <div className="col-sm-4">
-              <select className="form-select">
+              <select
+                className="form-select"
+                onChange={(e) =>
+                  setSearchParams({
+                    ...searchParams,
+                    stability: e.target.value,
+                  })
+                }
+              >
                 <option value="">None</option>
                 <option value="Understable">Understable</option>
                 <option value="Stable">Stable</option>

@@ -33,7 +33,7 @@ function Details() {
   }, []);
 
   return (
-    <div>
+    <div className="container border bg-light p-4">
       <h1>
         {discData?.brand} {discData?.name}
       </h1>
@@ -44,7 +44,7 @@ function Details() {
       <h6>Glide: {discData?.glide}</h6>
       <h6>Turn: {discData?.turn}</h6>
       <h6>Fade: {discData?.fade}</h6>
-      <img style={{ border: "2px solid" }} src={discData?.pic}></img> <br />
+      <img style={{ border: "2px solid" }} src={discData?.pic} alt="Flight Chart Unavailable"></img> <br />
       <div className="mt-2">
         {isLoggedIn && (
           <span>

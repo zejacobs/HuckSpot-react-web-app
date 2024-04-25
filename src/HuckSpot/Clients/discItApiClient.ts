@@ -12,3 +12,8 @@ export const fetchDiscById = async (discId: any) => {
   const response = await axios.get(`${DISC_IT_API}/${discId}`);
   return response.data;
 };
+
+export const fetchDiscResults = async (queryString: any) => {
+  const response = await axios.post(`${DISC_IT_API}`, queryString);
+  return response.data;
+};

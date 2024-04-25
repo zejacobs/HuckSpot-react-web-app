@@ -6,6 +6,7 @@ import Login from "./Login";
 import Register from "./Register";
 import Profile from "./Profile";
 import Search from "./Search";
+import SearchResults from "./Search/Results";
 import Details from "./Details";
 import Navigation from "./Navigation";
 
@@ -26,6 +27,7 @@ function HuckSpot() {
             <Route path="/Profile/" element={<Profile />} />
             <Route path="/Profile/:userId" element={<Profile />} />
             <Route path="/Search" element={<Search />} />
+            <Route path="/Search/:searchType" element={<SearchResults />} />
             <Route path="/Details/:discId" element={<Details />} />
           </Routes>
         </div>
