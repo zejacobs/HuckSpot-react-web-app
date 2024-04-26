@@ -47,7 +47,6 @@ function Profile() {
       dispatch(setCurrentUser(user));
     } catch (err: any) {
       dispatch(setCurrentUser(null));
-      navigate("/Login");
       setError(err.response.data.message);
     }
   };
