@@ -153,7 +153,7 @@ function Register() {
               }
             >
               <option value="USER">User</option>
-              <option value="TOURNAMENT_DIRECTOR">Tournament Director</option>
+              <option value="TD">Tournament Director</option>
               <option value="ADMIN">Admin</option>
             </select>
           </div>

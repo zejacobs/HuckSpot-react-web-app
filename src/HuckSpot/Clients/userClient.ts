@@ -71,11 +71,38 @@ export const deleteUser = async (user: any) => {
 };
 
 export const userBagsDisc = async (disc: any) => {
-  const response = await axios.post(`${BASE_API}/bags`, disc);
+  const response = await axios.post(`${BASE_API}/api/bags`, disc);
   return response.data;
 };
 
 export const userUnBagsDisc = async (discId: any) => {
-  const response = await axios.delete(`${BASE_API}/bags/${discId}`);
+  const response = await axios.delete(`${BASE_API}/api/bags/${discId}`);
   return response.data;
+};
+
+export const fetchDiscsUserBags = async () => {
+  const response = await axios.get(`${BASE_API}/api/bags`);
+  return response.data;
+};
+
+export const doesUserBagDisc = async (discId: any) => {
+  const response = await fetchDiscsUserBags();
+  if (response) {
+    return !!response.find((disc: any) => disc.discId === discId);
+  }
+  return false;
+};
+
+export const fetchUserTournaments = async () => {
+  const response = await axios.get(`${USERS_API}/tournaments`);
+  console.log(response);
+  return response.data;
+};
+
+export const isUserRegisteredforTournament = async (tournamentId: any) => {
+  const response = await fetchUserTournaments();
+  if (response) {
+    return !!response.find((tournament: any) => tournament.tournamentId === tournamentId);
+  }
+  return false;
 };

@@ -4,7 +4,7 @@ import "react-confirm-alert/src/react-confirm-alert.css";
 import "./index.css";
 import * as userClient from "../Clients/userClient";
 import store from "../store";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setCurrentUser } from "../userReducer";
 import { SlHome } from "react-icons/sl";
 import { ImProfile } from "react-icons/im";
@@ -21,7 +21,7 @@ function Navigation() {
     { label: "Register", icon: <GrUserNew /> },
   ];
   const { pathname } = useLocation();
-  const { currentUser } = store.getState().user;
+  const { currentUser } = useSelector((state: any) => state.user);
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
