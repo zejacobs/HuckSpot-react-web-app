@@ -1,16 +1,20 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import * as client from "../Clients/userClient";
+import { useDispatch } from "react-redux";
+import { setCurrentUser } from "../userReducer";
+import * as userClient from "../Clients/userClient";
 
 function Login() {
   const [credentials, setCredentials] = useState({ username: "", password: "" });
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleLogin = async () => {
     if (document.forms[0].checkValidity()) {
       try {
-        await client.login(credentials);
+        const currentUser = await userClient.login(credentials);
+        dispatch(setCurrentUser(currentUser));
         navigate("/Profile");
       } catch (err: any) {
         setError(err.response.data.message);
@@ -47,13 +51,13 @@ function Login() {
           }
           required
         />
-        <button className="btn btn-primary w-25 mb-2" onClick={handleLogin}>
+        <button className="btn btn-primary w-25 mb-2" type="submit" onClick={handleLogin}>
           Login
         </button>{" "}
         <br />
-        <button className="btn btn-success w-25" type="submit" onClick={handleLogin}>
-          Register
-        </button>
+        <Link to="/Register">
+          <button className="btn btn-success w-25">Register</button>
+        </Link>
       </form>
     </div>
   );

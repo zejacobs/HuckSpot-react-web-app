@@ -71,7 +71,7 @@ function Home() {
             </div>
           </div>
         </div>
-        <div className="row g-2 mt-2">
+        <div className="row">
           <div className="col border bg-light p-4">
             <h2>
               <Link to={"/Login"}>Login</Link> for more content
