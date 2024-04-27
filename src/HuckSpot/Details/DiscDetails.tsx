@@ -38,7 +38,6 @@ function DiscDetails() {
 
   const dispatch = useDispatch();
   const { currentUser } = useSelector((state: any) => state.user);
-
   const { discId } = useParams();
 
   const fetchDiscData = async () => {
@@ -51,7 +50,6 @@ function DiscDetails() {
       setProfile(currentUser);
 
       const doesUserLikeDisc = await likeClient.doesUserLikeDisc(discId);
-      console.log(`LIKES? ${doesUserLikeDisc}`);
       setIsLiked(doesUserLikeDisc);
 
       const doesUserBagDisc = await userClient.doesUserBagDisc(discId);

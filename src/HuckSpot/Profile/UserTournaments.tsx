@@ -7,8 +7,9 @@ export default function UserTournaments() {
 
   const fetchUserTournaments = async () => {
     const response = await userClient.fetchUserTournaments();
-    console.log(response);
-    setUserTournaments(response);
+    if (response) {
+      setUserTournaments(response);
+    }
   };
   useEffect(() => {
     fetchUserTournaments();
@@ -19,9 +20,9 @@ export default function UserTournaments() {
       {tournaments.length > 0 ? (
         <ul className="list-group">
           {tournaments.map((tournament: any) => (
-            <li className="list-group-item">
-              <Link to={`/Details/Tournaments/${tournament._id}`}>
-                {tournament.name} {tournament.date}
+            <li className="list-group-item" key={tournament.tournamentId}>
+              <Link to={`/Details/Tournaments/${tournament.tournamentId}`}>
+                {tournament.tournamentName} {tournament.tournamentDate}
               </Link>
             </li>
           ))}{" "}

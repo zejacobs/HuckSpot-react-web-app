@@ -95,7 +95,6 @@ export const doesUserBagDisc = async (discId: any) => {
 
 export const fetchUserTournaments = async () => {
   const response = await axios.get(`${USERS_API}/tournaments`);
-  console.log(response);
   return response.data;
 };
 

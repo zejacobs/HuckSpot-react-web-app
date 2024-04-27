@@ -7,7 +7,9 @@ export default function BaggedDiscs() {
 
   const fetchUserBags = async () => {
     const response = await userClient.fetchDiscsUserBags();
-    setBaggedDiscs(response);
+    if (response) {
+      setBaggedDiscs(response);
+    }
   };
   useEffect(() => {
     fetchUserBags();
