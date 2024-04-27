@@ -17,9 +17,9 @@ function HuckSpot() {
       <div className="flex-row">
         <Navigation />
       </div>
-      <div className="">
-        <div className="d-flex flex-row main-content">
-          <div className="d-none d-lg-block side-bar-left"></div>
+      <div className="flex-row main-content">
+        <div className=" flex-row d-flex">
+          <div className="d-none d-lg-block side-bar"></div>
           <div className="flex-fill container p-4 ">
             <Routes>
               <Route path="/" element={<Navigate to="Home" />} />
@@ -35,7 +35,7 @@ function HuckSpot() {
               <Route path="/Admin/:adminType" element={<Admin />} />
             </Routes>
           </div>
-          <div className="d-none d-lg-block side-bar-right"></div>
+          <div className="d-none d-lg-block side-bar"></div>
         </div>
       </div>
     </div>

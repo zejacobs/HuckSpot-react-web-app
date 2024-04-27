@@ -1,6 +1,7 @@
 import { useLocation, useParams } from "react-router";
 import DiscResults from "./DiscResults";
 import UserResults from "./UserResults";
+import TournamentResults from "./TournamentResults";
 import { GrSearch } from "react-icons/gr";
 
 export default function SearchResults() {
@@ -14,7 +15,7 @@ export default function SearchResults() {
       </h1>{" "}
       <hr />
       {searchType === "Discs" && <DiscResults queryString={search} />}
-      {searchType === "Tournaments" && <h1>TOURNEYS</h1>}
+      {searchType === "Tournaments" && <TournamentResults queryString={search} />}
       {searchType === "Users" && <UserResults queryString={search} />}
     </div>
   );

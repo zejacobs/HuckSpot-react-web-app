@@ -13,15 +13,21 @@ export const userUnlikesDisc = async (discId: any) => {
   return response.data;
 };
 
-export const fetchDiscsUserLikes = async () => {
-  const response = await axios.get(`${LIKES_API}`);
+export const fetchDiscsUserLikes = async (userId: any) => {
+  const response = await axios.get(`${LIKES_API}/${userId}`);
   return response.data;
 };
 
-export const doesUserLikeDisc = async (discId: any) => {
-  const response = await fetchDiscsUserLikes();
+export const doesUserLikeDisc = async (userId: any, discId: any) => {
+  const response = await fetchDiscsUserLikes(userId);
   if (response) {
     return !!response.find((disc: any) => disc.discId === discId);
   }
   return false;
+};
+
+export const findUserRecentLikes = async (userId: any) => {
+  const likes = await fetchDiscsUserLikes(userId);
+  const recentLikes = likes.slice(-3).reverse();
+  return recentLikes;
 };

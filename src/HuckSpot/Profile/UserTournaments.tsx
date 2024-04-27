@@ -1,12 +1,20 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import * as userClient from "../Clients/userClient";
+import { useSelector } from "react-redux";
 
 export default function UserTournaments() {
   const [tournaments, setUserTournaments] = useState([]);
+  const { currentUser } = useSelector((state: any) => state.user);
+  const { userId } = useParams();
 
   const fetchUserTournaments = async () => {
-    const response = await userClient.fetchUserTournaments();
+    let response;
+    if (userId) {
+      response = await userClient.fetchUserTournaments(userId);
+    } else if (currentUser) {
+      response = await userClient.fetchUserTournaments(currentUser._id);
+    }
     if (response) {
       setUserTournaments(response);
     }

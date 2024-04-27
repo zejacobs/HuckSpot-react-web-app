@@ -1,12 +1,20 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import * as userClient from "../Clients/userClient";
+import { useSelector } from "react-redux";
 
 export default function BaggedDiscs() {
   const [baggedDiscs, setBaggedDiscs] = useState([]);
+  const { currentUser } = useSelector((state: any) => state.user);
+  const { userId } = useParams();
 
   const fetchUserBags = async () => {
-    const response = await userClient.fetchDiscsUserBags();
+    let response;
+    if (userId) {
+      response = await userClient.fetchDiscsUserBags(userId);
+    } else if (currentUser) {
+      response = await userClient.fetchDiscsUserBags(currentUser._id);
+    }
     if (response) {
       setBaggedDiscs(response);
     }

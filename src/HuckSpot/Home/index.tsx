@@ -6,6 +6,8 @@ import { SlHome } from "react-icons/sl";
 import { Link } from "react-router-dom";
 import * as discItApiClient from "../Clients/discItApiClient";
 import * as tournamentClient from "../Clients/tournamentClient";
+import * as likesClient from "../Clients/likeClient";
+import * as userClient from "../Clients/userClient";
 import { useSelector } from "react-redux";
 
 function Home() {
@@ -24,6 +26,8 @@ function Home() {
   }
   const [discData, setDiscData] = useState<discDataType>();
   const [recentTournaments, setRecentTournaments] = useState([]);
+  const [recentLikes, setRecentLikes] = useState([]);
+  const [recentRegistrations, setRecentRegistrations] = useState([]);
   const { currentUser } = useSelector((state: any) => state.user);
 
   const fetchDiscSpotlight = async () => {
@@ -34,9 +38,18 @@ function Home() {
     const tournaments = await tournamentClient.getRecentlyAddedTournaments();
     setRecentTournaments(tournaments);
   };
+  const fetchRecentActivity = async () => {
+    const likes = await likesClient.findUserRecentLikes(currentUser._id);
+    setRecentLikes(likes);
+    const registrations = await userClient.findUserRecentTournamentRegistrations(currentUser._id);
+    setRecentRegistrations(registrations);
+  };
   useEffect(() => {
     fetchDiscSpotlight();
     fetchRecentTournaments();
+    if (currentUser) {
+      fetchRecentActivity();
+    }
   }, []);
 
   const navigate = useNavigate();
@@ -101,7 +114,35 @@ function Home() {
                   <Link to={"/Login"}>Login</Link> for more content
                 </h2>
               ) : (
-                <h2>Logged In</h2>
+                <>
+                  <h2>Recent Activity</h2> <hr />
+                  <div className="container row">
+                    <div className="col">
+                      <h5>Recent Likes</h5>
+                      <ul>
+                        {recentLikes.map((l: any) => (
+                          <li className="mb-4">
+                            <Link style={{ textDecoration: "none" }} to={`/Details/Discs/${l.discId}`}>
+                              {l.name}
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div className="col">
+                      <h5>Recent Tournament Registrations</h5>
+                      <ul>
+                        {recentRegistrations.map((t: any) => (
+                          <li className="mb-4">
+                            <Link style={{ textDecoration: "none" }} to={`/Details/Tournaments/${t.tournamentId}`}>
+                              {t.tournamentName}
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                </>
               )}
             </div>
           </div>

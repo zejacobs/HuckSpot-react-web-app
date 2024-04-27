@@ -31,12 +31,11 @@ function DiscDetails() {
     name: string;
   }
   const [discData, setDiscData] = useState<discDataType>();
-  const [profile, setProfile] = useState<any>({ _id: "", likedDiscs: [], baggedDiscs: [] });
+
   const [likedBy, setLikedBy] = useState<likeDataType[]>([]);
   const [isBagged, setIsBagged] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
 
-  const dispatch = useDispatch();
   const { currentUser } = useSelector((state: any) => state.user);
   const { discId } = useParams();
 
@@ -47,12 +46,10 @@ function DiscDetails() {
     setLikedBy(likes);
 
     if (currentUser) {
-      setProfile(currentUser);
-
-      const doesUserLikeDisc = await likeClient.doesUserLikeDisc(discId);
+      const doesUserLikeDisc = await likeClient.doesUserLikeDisc(currentUser._id, discId);
       setIsLiked(doesUserLikeDisc);
 
-      const doesUserBagDisc = await userClient.doesUserBagDisc(discId);
+      const doesUserBagDisc = await userClient.doesUserBagDisc(currentUser._id, discId);
       setIsBagged(doesUserBagDisc);
     }
   };

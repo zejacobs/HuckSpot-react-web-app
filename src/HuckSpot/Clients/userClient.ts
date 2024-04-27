@@ -80,28 +80,34 @@ export const userUnBagsDisc = async (discId: any) => {
   return response.data;
 };
 
-export const fetchDiscsUserBags = async () => {
-  const response = await axios.get(`${BASE_API}/api/bags`);
+export const fetchDiscsUserBags = async (userId: any) => {
+  const response = await axios.get(`${BASE_API}/api/bags/${userId}`);
   return response.data;
 };
 
-export const doesUserBagDisc = async (discId: any) => {
-  const response = await fetchDiscsUserBags();
+export const doesUserBagDisc = async (userId: any, discId: any) => {
+  const response = await fetchDiscsUserBags(userId);
   if (response) {
     return !!response.find((disc: any) => disc.discId === discId);
   }
   return false;
 };
 
-export const fetchUserTournaments = async () => {
-  const response = await axios.get(`${USERS_API}/tournaments`);
+export const fetchUserTournaments = async (userId: any) => {
+  const response = await axios.get(`${USERS_API}/tournaments/${userId}`);
   return response.data;
 };
 
-export const isUserRegisteredforTournament = async (tournamentId: any) => {
-  const response = await fetchUserTournaments();
+export const isUserRegisteredforTournament = async (userId: any, tournamentId: any) => {
+  const response = await fetchUserTournaments(userId);
   if (response) {
     return !!response.find((tournament: any) => tournament.tournamentId === tournamentId);
   }
   return false;
+};
+
+export const findUserRecentTournamentRegistrations = async (userId: any) => {
+  const registrations = await fetchUserTournaments(userId);
+  const recentRegistrations = registrations.slice(-3).reverse();
+  return recentRegistrations;
 };

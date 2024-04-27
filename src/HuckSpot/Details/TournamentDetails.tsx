@@ -14,30 +14,27 @@ export default function TournamentDetails() {
     date: string;
     tdName: string;
     tdId: string;
-    registeredPlayers: [];
+    registeredPlayers: [playerDataType];
   }
   interface playerDataType {
     playerId: string;
     playerName: string;
   }
-
+  const [registeredPlayers, setRegisteredPlayers] = useState<playerDataType[]>([]);
   const [tournamentData, setTournamentData] = useState<tournamentDataType>();
   const [isRegistered, setIsRegistered] = useState(false);
-  const [registeredPlayers, setRegisteredPlayers] = useState<playerDataType[]>([]);
 
-  const dispatch = useDispatch();
   const { currentUser } = useSelector((state: any) => state.user);
   const { tournamentId } = useParams();
 
   const fetchTournamentData = async () => {
-    const response = await tournamentClient.findTournamentById(tournamentId);
-    console.log(response);
-    console.log(response[0]);
-    setTournamentData(response[0]);
-    console.log(tournamentData?.registeredPlayers);
+    const tournament = await tournamentClient.findTournamentById(tournamentId);
+    setTournamentData(tournament[0]);
+    const players = await tournamentClient.getTournamentPlayers(tournamentId);
+    setRegisteredPlayers(players);
 
     if (currentUser) {
-      const isUserRegistered = await userClient.isUserRegisteredforTournament(tournamentId);
+      const isUserRegistered = await userClient.isUserRegisteredforTournament(currentUser._id, tournamentId);
       setIsRegistered(isUserRegistered);
     }
   };
@@ -58,7 +55,8 @@ export default function TournamentDetails() {
 
   const unregisterForTournament = async () => {
     await tournamentClient.unregisterUserForTournament(tournamentId);
-    setRegisteredPlayers(registeredPlayers.filter((player) => player.playerId !== currentUser._id));
+    console.log(registeredPlayers);
+    setRegisteredPlayers(registeredPlayers.filter((p) => p.playerId !== currentUser._id));
     console.log(registeredPlayers);
     setIsRegistered(false);
   };
@@ -91,9 +89,9 @@ export default function TournamentDetails() {
       <hr />
       <h4>Registered Players</h4>
       <ul className="list-group">
-        {registeredPlayers?.map((player: any) => (
+        {registeredPlayers.map((player: playerDataType) => (
           <li className="list-group-item" key={player.playerId}>
-            <Link to={`/Profile/${player.playerId}`}>ddd{player.playerName}</Link>
+            <Link to={`/Profile/${player.playerId}`}>{player.playerName}</Link>
           </li>
         ))}
       </ul>
